@@ -11,15 +11,53 @@ defmodule Dispatcher do
 
   define_layers [ :static, :services, :fall_back, :not_found ]
 
-  # In order to forward the 'themes' resource to the
-  # resource service, use the following forward rule:
-  #
-  # match "/themes/*path", @json do
-  #   Proxy.forward conn, path, "http://resource/themes/"
-  # end
-  #
-  # Run `docker-compose restart dispatcher` after updating
-  # this file.
+  #############################################################################
+  # Frontend resources
+  #############################################################################
+
+  get "/organizations/*path", @json do
+    forward conn, path, "http://resource/organizations/"
+  end
+
+  get "/organization-classification-codes/*path", @json do
+    forward conn, path, "http://resource/organization-classification-codes/"
+  end
+
+  get "/bestuurseenheden/*path", @json do
+    forward conn, path, "http://resource/bestuurseenheden/"
+  end
+
+  get "/bestuurseenheid-classificatie-codes/*path", @json do
+    forward conn, path, "http://resource/bestuurseenheid-classificatie-codes/"
+  end
+
+
+  #############################################################################
+  # Session management
+  #############################################################################
+
+  match "/mock/sessions/*path", @json do
+    forward conn, path, "http://mocklogin/sessions/"
+  end
+
+  get "/gebruikers/*path", @json do
+    forward conn, path, "http://resource/gebruikers/"
+  end
+
+  # NOTE: resources
+  match "/accounts/*path", @json do
+    forward conn, path, "http://resource/accounts/"
+  end
+
+
+  match "/sessions/*path" do
+    forward conn, path, "http://login/sessions/"
+  end
+
+
+  #############################################################################
+  # Others
+  #############################################################################
 
   match "/*_", %{ layer: :not_found } do
     send_resp( conn, 404, "Route not found.  See config/dispatcher.ex" )
