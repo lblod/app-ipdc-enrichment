@@ -9,18 +9,6 @@
 (setf sparql:*query-log-types* nil) ;; hint: use app-http-logger for logging queries instead, all is '(:default :update-group :update :query :ask)
 
 
-;; example
-;; (define-resource dataset ()
-;;   :class (s-prefix "dcat:Dataset")
-;;   :properties `((:title :string ,(s-prefix "dct:title"))
-;;                 (:description :string ,(s-prefix "dct:description")))
-;;   :has-one `((catalog :via ,(s-prefix "dcat:dataset")
-;;                       :inverse t
-;;                       :as "catalog"))
-;;   :has-many `((theme :via ,(s-prefix "dcat:theme")
-;;                      :as "themes"))
-;;   :resource-base (s-url "http://webcat.tmp.semte.ch/datasets/")
-;;   :on-path "datasets")
-
-;; reading in the domain.json
-(read-domain-file "domain.json")
+(read-domain-file "organisation.lisp")
+(read-domain-file "users.lisp")
+(read-domain-file "besluit.lisp")
