@@ -1,0 +1,29 @@
+services:
+  identifier:
+    ports:
+      - "80:80"
+    restart: "no"
+  triplestore:
+    ports:
+      - "8890:8890"
+    restart: "no"
+
+  mocklogin:
+    image: lblod/mock-login-service:0.7.0
+    environment:
+      GROUP_TYPE: "http://www.w3.org/ns/org#Organization"
+    restart: "no"
+  dispatcher:
+    restart: "no"
+
+  resource:
+    restart: "no"
+
+  migrations:
+    restart: "no"
+
+  delta-notifier:
+    restart: "no"
+
+  database:
+    restart: "no"
