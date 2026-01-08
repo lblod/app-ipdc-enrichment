@@ -22,6 +22,15 @@ services:
       - "logging=true"
     logging: *default-logging
 
+  frontend:
+    image: lblod/frontend-ipdc-enrichment:latest
+    links:
+      - identifier:backend
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
+
   # Your extra services here
   resource:
     image: semtech/mu-cl-resources:1.26.0

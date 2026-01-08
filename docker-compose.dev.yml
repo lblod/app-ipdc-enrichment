@@ -8,6 +8,8 @@ services:
       - "8890:8890"
     restart: "no"
 
+  frontend:
+    restart: "no"
   mocklogin:
     image: lblod/mock-login-service:0.7.0
     environment:

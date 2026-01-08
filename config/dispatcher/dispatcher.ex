@@ -54,6 +54,20 @@ defmodule Dispatcher do
     forward conn, path, "http://login/sessions/"
   end
 
+  # Frontend
+
+  get "/assets/*path", @any do
+    forward conn, path, "http://frontend/assets/"
+  end
+
+  get "/@appuniversum/*path", @any do
+    forward conn, path, "http://frontend/@appuniversum/"
+  end
+
+  match "/*_path", @html do
+    forward conn, [], "http://frontend/index.html"
+  end
+
 
   #############################################################################
   # Others
