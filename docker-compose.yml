@@ -79,3 +79,12 @@ services:
     labels:
       - "logging=true"
     logging: *default-logging
+
+  form-content:
+    image: lblod/form-content-service:0.1.0
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
+    volumes:
+      - ./config/form-content:/config

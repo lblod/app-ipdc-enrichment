@@ -29,3 +29,6 @@ services:
 
   database:
     restart: "no"
+
+  form-content:
+    restart: "no"
