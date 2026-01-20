@@ -2,6 +2,7 @@
 /data/db/*
 /data/authorization/*
 /data/db/virtuoso.ini
+/data/ldes-consumer
 !/data/db/toLoad
 !/data/db/toLoad/*
 

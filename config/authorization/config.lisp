@@ -37,6 +37,12 @@
   :mu "http://mu.semte.ch/vocabularies/core/"
   :session "http://mu.semte.ch/vocabularies/session/"
   :ext "http://mu.semte.ch/vocabularies/ext/"
+  :ipdc "https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#"
+  :schema "http://schema.org/"
+  :m8g "http://data.europa.eu/m8g/"
+  :locn "http://www.w3.org/ns/locn#"
+  :cpsv "http://purl.org/vocab/cpsv#"
+  :eli "http://data.europa.eu/eli/ontology#"
   ;; Custom prefix URIs here, prefix casing is ignored
   )
 
@@ -63,6 +69,17 @@
 ;;    -> "foaf:name"
 ;;    -> "foaf:member"))
 
+(define-graph ipdc ("http://mu.semte.ch/graphs/ipdc/ldes-data")
+  ("ipdc:InstancePublicServiceSnapshot" -> _)
+  ("ipdc:FinancialAdvantage" -> _)
+  ("schema:WebSite" -> _)
+  ("m8g:Requirement" -> _)
+  ("m8g:Cost" -> _)
+  ("m8g:Evidence" -> _)
+  ("schema:ContactPoint" -> _)
+  ("locn:Address" -> _)
+  ("cpsv:Rule" -> _)
+  ("eli:LegalResource" -> _))
 
 ;;;;;;;;;;;;;
 ;; User roles
@@ -72,6 +89,10 @@
 (grant (read write)
        :to-graph public
        :for-allowed-group "public")
+
+(grant (read)
+  :to-graph (ipdc)
+  :for-allowed-group "public")
 
 ;; example:
 
