@@ -28,3 +28,12 @@ Boot your microservices-enabled system using docker-compose.
     docker-compose up
 
 You can shut down using `docker-compose stop` and remove everything using `docker-compose rm`.
+
+## Troubleshooting
+### Restarting the full ipdc-sync from scratch
+```
+drc stop ipdc-ldes-consumer
+rm -rf ./data/ldes-consumer/*.json
+# In triplestore: CLEAR GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data>
+drc up -d ipdc-ldes-consumer
+```
