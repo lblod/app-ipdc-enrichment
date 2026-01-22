@@ -100,3 +100,12 @@ services:
     logging: *default-logging
     labels:
       - "logging=true"
+
+  uuid-generation:
+    image: redpencil/uuid-generation:0.4.0
+    environment:
+      RUN_CRON_JOBS: "true"
+      CRON_FREQUENCY: "0 * * * *" # every hour
+    volumes:
+      - ./config/uuid-generation/:/config
+    restart: always
