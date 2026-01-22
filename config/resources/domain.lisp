@@ -12,3 +12,4 @@
 (read-domain-file "organisation.lisp")
 (read-domain-file "users.lisp")
 (read-domain-file "besluit.lisp")
+(read-domain-file "ipdc.lisp")
