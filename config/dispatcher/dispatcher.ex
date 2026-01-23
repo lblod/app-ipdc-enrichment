@@ -76,7 +76,20 @@ defmodule Dispatcher do
     forward conn, [], "http://frontend/index.html"
   end
 
+  #################################################################
+  # IPDC
+  #################################################################
+  get "/public-services/*path" do
+    Proxy.forward conn, path, "http://resource/public-services/"
+  end
 
+  get "/procedures/*path" do
+    Proxy.forward conn, path, "http://resource/procedures/"
+  end
+
+  get "/websites/*path" do
+    Proxy.forward conn, path, "http://resource/websites/"
+  end
   #############################################################################
   # Others
   #############################################################################

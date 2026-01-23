@@ -34,6 +34,8 @@ services:
   # Your extra services here
   resource:
     image: semtech/mu-cl-resources:1.26.0
+    environment:
+      LISP_DYNAMIC_SPACE_SIZE: "4096" # 1GB by default, increase to 8GB on systems with a lot of data
     volumes:
       - ./config/resources:/config
     labels:
@@ -88,3 +90,33 @@ services:
     logging: *default-logging
     volumes:
       - ./config/form-content:/config
+      
+  ipdc-ldes-consumer:
+    image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
+    volumes:
+      - ./data/ldes-consumer:/data
+    environment:
+      LDES_ENDPOINT_VIEW: "https://ipdc-ldes-mirror.lblod.info/ldes/ipdc-products"
+      MU_APPLICATION_GRAPH: "http://mu.semte.ch/graphs/ipdc/ldes-data"
+      INGEST_MODE: "MATERIALIZE"
+      REPLACE_VERSIONS: "true"
+      PERSIST_STATE: "true"
+      SPARQL_BATCH_SIZE: "500"
+      SUDO_QUERY_RETRY: "true"
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
+      NODE_OPTIONS: "--max-old-space-size=8192"
+      LOG_LEVEL: "debug"
+      LOG_SPARQL_ALL: true
+    restart: always
+    logging: *default-logging
+    labels:
+      - "logging=true"
+
+  uuid-generation:
+    image: redpencil/uuid-generation:0.4.0
+    environment:
+      RUN_CRON_JOBS: "true"
+      CRON_FREQUENCY: "0 * * * *" # every hour
+    volumes:
+      - ./config/uuid-generation/:/config
+    restart: always
