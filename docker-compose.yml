@@ -82,6 +82,15 @@ services:
       - "logging=true"
     logging: *default-logging
 
+  form-content:
+    image: lblod/form-content-service:0.1.0
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
+    volumes:
+      - ./config/form-content:/config
+      
   ipdc-ldes-consumer:
     image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
     volumes:

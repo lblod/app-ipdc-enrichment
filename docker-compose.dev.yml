@@ -30,5 +30,8 @@ services:
   database:
     restart: "no"
 
+  form-content:
+    restart: "no"
+    
   ipdc-ldes-consumer:
     restart: "no"

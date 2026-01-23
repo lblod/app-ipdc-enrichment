@@ -31,6 +31,14 @@ defmodule Dispatcher do
     forward conn, path, "http://resource/bestuurseenheid-classificatie-codes/"
   end
 
+  #################################################################
+  # Extra services
+  #################################################################
+
+  match "/form-content/*path", @any do
+    forward conn, path, "http://form-content/"
+  end
+
 
   #############################################################################
   # Session management
