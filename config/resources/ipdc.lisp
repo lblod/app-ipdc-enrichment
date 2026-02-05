@@ -15,6 +15,8 @@
                 (:concept :url ,(s-prefix "dct:source")))
   :has-one `((concept :via ,(s-prefix "dct:type")
                :as "type")
+              (bestuurseenheid-classificatie-code :via ,(s-prefix "icr:isRelevantForAdministrativeUnit")
+                :as "relevant-administrative-units")
               (concept :via ,(s-prefix "m8g:hasCompetentAuthority")
                 :as "competent-authority"))
   :has-many `((concept :via ,(s-prefix "dct:language")

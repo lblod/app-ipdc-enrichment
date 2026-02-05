@@ -73,3 +73,4 @@
 (add-prefix "cogs" "http://vocab.deri.ie/cogs#")
 (add-prefix "euvoc" "http://publications.europa.eu/ontology/euvoc#")
 (add-prefix "pera" "http://publications.europa.eu/resource/authority/")
+(add-prefix "icr" "http://lblod.data.gift/vocabularies/informationclassification/")

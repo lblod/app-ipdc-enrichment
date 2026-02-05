@@ -43,6 +43,7 @@
   :locn "http://www.w3.org/ns/locn#"
   :cpsv "http://purl.org/vocab/cpsv#"
   :eli "http://data.europa.eu/eli/ontology#"
+  :icr "http://lblod.data.gift/vocabularies/informationclassification/"
   ;; Custom prefix URIs here, prefix casing is ignored
   )
 
@@ -79,7 +80,8 @@
   ("schema:ContactPoint" -> _)
   ("locn:Address" -> _)
   ("cpsv:Rule" -> _)
-  ("eli:LegalResource" -> _))
+  ("eli:LegalResource" -> _)
+  ("icr:isRelevantForAdministrativeUnit" -> _))
 
 ;;;;;;;;;;;;;
 ;; User roles
