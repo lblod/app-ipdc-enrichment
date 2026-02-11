@@ -1,0 +1,67 @@
+@prefix form: <http://lblod.data.gift/vocabularies/forms/>.
+@prefix sh: <http://www.w3.org/ns/shacl#>.
+@prefix mu: <http://mu.semte.ch/vocabularies/core/>.
+@prefix displayTypes: <http://lblod.data.gift/display-types/>.
+@prefix schema: <http://schema.org/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix nie: <http://www.semanticdesktop.org/ontologies/2007/01/19/nie#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix ext: <http://mu.semte.ch/vocabularies/ext/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix dcterm: <http://purl.org/dc/terms/> .
+@prefix icr: <http://lblod.data.gift/vocabularies/informationclassification/>.
+
+<http://data.lblod.info/id/lmb/forms/Public-service>
+  a form:Form, form:TopLevelForm;
+  form:includes ext:titelF, ext:beschrijvingF, ext:bestuurseenheidClassificatieF ;
+  sh:group ext:mainPG;
+  form:targetType ext:PublicService;
+  form:targetLabel dcterm:description;
+  ext:prefix <http://data.lblod.info/id/Public-service/>;
+  mu:uuid "6293bfe1-40a3-4228-8f33-1f74dc45e2b9".
+
+ext:mainPG
+  a form:PropertyGroup;
+  sh:name "Public service";
+  sh:order 1.
+
+ext:titelF
+  a form:Field;
+  form:displayType displayTypes:textArea;
+  sh:group ext:mainPG;
+  sh:name "Titel";
+  sh:order 2;
+  form:showInSummary true;
+  form:validatedBy
+        [
+            a form:RequiredConstraint;
+            form:grouping form:Bag;
+            sh:path dcterm:title;
+            sh:resultMessage "Titel is verplicht."
+    ];
+  sh:path dcterm:title.
+
+ext:beschrijvingF
+  a form:Field;
+  form:displayType displayTypes:textArea;
+  sh:group ext:mainPG;
+  sh:name "Beschrijving";
+  sh:order 2;
+  form:showInSummary true;
+  form:validatedBy
+        [
+            a form:RequiredConstraint;
+            form:grouping form:Bag;
+            sh:path dcterm:description;
+            sh:resultMessage "Beschrijving is verplicht."
+    ];
+  sh:path dcterm:description.
+
+ext:bestuurseenheidClassificatieF
+    a form:Field;
+    form:displayType displayTypes:conceptSchemeSelector;
+    sh:group ext:mainPG;
+    sh:name "Doelgroep";
+    sh:order 3;
+    sh:path icr:isRelevantForAdministrativeUnit;
+    form:options """{"conceptScheme":"http://data.vlaanderen.be/id/conceptscheme/BestuurseenheidClassificatieCode","orderBy": "http://purl.org/linked-data/cube#order", "searchEnabled":true}""".

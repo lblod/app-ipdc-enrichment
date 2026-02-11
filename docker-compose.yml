@@ -1,0 +1,122 @@
+x-logging:
+  &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  identifier:
+    image: semtech/mu-identifier:1.10.3
+    environment:
+      SESSION_COOKIE_SECURE: "on"
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  dispatcher:
+    image: semtech/mu-dispatcher:2.1.0-beta.2
+    volumes:
+      - ./config/dispatcher:/config
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  frontend:
+    image: lblod/frontend-ipdc-enrichment:0.1.0
+    links:
+      - identifier:backend
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
+
+  # Your extra services here
+  resource:
+    image: semtech/mu-cl-resources:1.26.0
+    environment:
+      LISP_DYNAMIC_SPACE_SIZE: "4096" # 1GB by default, increase to 8GB on systems with a lot of data
+    volumes:
+      - ./config/resources:/config
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  migrations:
+    image: semtech/mu-migrations-service:0.9.0
+    links:
+      - triplestore:database
+    environment:
+      MU_SPARQL_TIMEOUT: 600
+    volumes:
+      - ./config/migrations:/data/migrations
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  delta-notifier:
+    image: semtech/mu-delta-notifier:0.4.0
+    volumes:
+      - ./config/delta:/config/
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  database:
+    image: semtech/sparql-parser:0.0.15
+    volumes:
+      - ./config/authorization/:/config/
+      - ./data/authorization/:/data/
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  triplestore:
+    image: redpencil/virtuoso:1.2.1
+    environment:
+      SPARQL_UPDATE: "true"
+    volumes:
+      - ./data/db:/data
+      - ./config/virtuoso/virtuoso.ini:/data/virtuoso.ini
+    labels:
+      - "logging=true"
+    logging: *default-logging
+
+  form-content:
+    image: lblod/form-content-service:0.1.0
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
+    volumes:
+      - ./config/form-content:/config
+      
+  ipdc-ldes-consumer:
+    image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
+    volumes:
+      - ./data/ldes-consumer:/data
+    environment:
+      LDES_ENDPOINT_VIEW: "https://ipdc-ldes-mirror.lblod.info/ldes/ipdc-products"
+      MU_APPLICATION_GRAPH: "http://mu.semte.ch/graphs/ipdc/ldes-data"
+      INGEST_MODE: "MATERIALIZE"
+      REPLACE_VERSIONS: "true"
+      PERSIST_STATE: "true"
+      SPARQL_BATCH_SIZE: "500"
+      SUDO_QUERY_RETRY: "true"
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
+      NODE_OPTIONS: "--max-old-space-size=8192"
+      LOG_LEVEL: "debug"
+      LOG_SPARQL_ALL: true
+    restart: always
+    logging: *default-logging
+    labels:
+      - "logging=true"
+
+  uuid-generation:
+    image: redpencil/uuid-generation:0.4.0
+    environment:
+      RUN_CRON_JOBS: "true"
+      CRON_FREQUENCY: "0 * * * *" # every hour
+    volumes:
+      - ./config/uuid-generation/:/config
+    restart: always
