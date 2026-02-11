@@ -11,14 +11,13 @@
 @prefix dcterm: <http://purl.org/dc/terms/> .
 @prefix icr: <http://lblod.data.gift/vocabularies/informationclassification/>.
 
-<http://data.lblod.info/id/lmb/forms/BestuurseenheidContact>
+<http://data.lblod.info/id/lmb/forms/Public-service>
   a form:Form, form:TopLevelForm;
   form:includes ext:titelF, ext:beschrijvingF, ext:bestuurseenheidClassificatieF ;
   sh:group ext:mainPG;
-  form:initGenerator ext:contactG;
-  form:targetType ext:BestuurseenheidContact;
+  form:targetType ext:PublicService;
   form:targetLabel dcterm:description;
-  ext:prefix <http://data.lblod.info/id/BestuurseenheidContact/>;
+  ext:prefix <http://data.lblod.info/id/Public-service/>;
   mu:uuid "6293bfe1-40a3-4228-8f33-1f74dc45e2b9".
 
 ext:mainPG
