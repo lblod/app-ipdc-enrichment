@@ -78,8 +78,7 @@
   ("schema:ContactPoint" -> _)
   ("locn:Address" -> _)
   ("cpsv:Rule" -> _)
-  ("eli:LegalResource" -> _)
-  ("icr:isRelevantForAdministrativeUnit" -> _))
+  ("eli:LegalResource" -> _))
 
 ;;;;;;;;;;;;;
 ;; User roles
