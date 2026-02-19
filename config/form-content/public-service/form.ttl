@@ -27,7 +27,7 @@ ext:mainPG
 
 ext:titelF
   a form:Field;
-  form:displayType displayTypes:textArea;
+  form:displayType displayTypes:disabledTextArea;
   sh:group ext:mainPG;
   sh:name "Titel";
   sh:order 2;
@@ -43,7 +43,7 @@ ext:titelF
 
 ext:beschrijvingF
   a form:Field;
-  form:displayType displayTypes:textArea;
+  form:displayType displayTypes:disabledTextArea;
   sh:group ext:mainPG;
   sh:name "Beschrijving";
   sh:order 2;
