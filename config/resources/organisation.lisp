@@ -29,7 +29,7 @@
 )
 
 (define-resource bestuurseenheid-classificatie-code ()
-  :class (s-prefix "besluit:BestuurseenheidClassificatieCode")
+  :class (s-prefix "ext:BestuurseenheidClassificatieCode")
   :properties `((:label :string ,(s-prefix "skos:prefLabel")))
   :resource-base (s-url "http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/")
   :features '(include-uri)

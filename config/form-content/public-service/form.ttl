@@ -17,6 +17,7 @@
   sh:group ext:mainPG;
   form:targetType ext:PublicService;
   form:targetLabel dcterm:description;
+  form:language "nl";
   ext:prefix <http://data.lblod.info/id/Public-service/>;
   mu:uuid "6293bfe1-40a3-4228-8f33-1f74dc45e2b9".
 
@@ -27,7 +28,7 @@ ext:mainPG
 
 ext:titelF
   a form:Field;
-  form:displayType displayTypes:textArea;
+  form:displayType displayTypes:disabledTextArea;
   sh:group ext:mainPG;
   sh:name "Titel";
   sh:order 2;
@@ -43,7 +44,7 @@ ext:titelF
 
 ext:beschrijvingF
   a form:Field;
-  form:displayType displayTypes:textArea;
+  form:displayType displayTypes:disabledTextArea;
   sh:group ext:mainPG;
   sh:name "Beschrijving";
   sh:order 2;
@@ -59,7 +60,7 @@ ext:beschrijvingF
 
 ext:bestuurseenheidClassificatieF
     a form:Field;
-    form:displayType displayTypes:conceptSchemeSelector;
+    form:displayType displayTypes:conceptSchemeMultiSelector;
     sh:group ext:mainPG;
     sh:name "Doelgroep";
     sh:order 3;

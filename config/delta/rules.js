@@ -16,6 +16,20 @@ export default [
   },
   {
     match: {
+      // any
+    },
+    callback: {
+      url: "http://ldes-delta-pusher/publish",
+      method: "POST",
+    },
+    options: {
+      resourceFormat: "v0.0.1",
+      ignoreFromSelf: true,
+      gracePeriod: 15000,
+    },
+  },
+  {
+    match: {
     },
     callback: {
       url: 'http://uuid-generation/delta',

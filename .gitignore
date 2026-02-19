@@ -5,6 +5,7 @@
 /data/ldes-consumer
 !/data/db/toLoad
 !/data/db/toLoad/*
+data/ldes-feed
 
 node_modules/
 docker-compose.override.yml

@@ -23,7 +23,7 @@ services:
     logging: *default-logging
 
   frontend:
-    image: lblod/frontend-ipdc-enrichment:0.1.0
+    image: lblod/frontend-ipdc-enrichment:0.2.0
     links:
       - identifier:backend
     labels:
@@ -90,6 +90,58 @@ services:
     logging: *default-logging
     volumes:
       - ./config/form-content:/config
+
+  ################################################################################
+  # LDES PRODUCERS
+  ################################################################################
+  ldes-delta-pusher:
+    image: redpencil/ldes-delta-pusher:1.2.7
+    environment:
+      LDES_ENDPOINT: "http://ldes-backend"
+      LDES_BASE: "https://qa.ipdc-ldes-mirror.lblod.info/instancesnapshots"
+      LDES_FOLDER: public
+      DATA_FOLDER: /data
+      CRON_HEALING: "0 0 0 * * *" # Every day at midnight
+      AUTO_HEALING: "true"
+      CRON_CHECKPOINT: "0 0 5 1 * *"
+      SUDO_QUERY_RETRY_TIMEOUT_INCREMENT_FACTOR: 0.003
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: 429,500,502,503,504
+      MAX_PAGE_SIZE_BYTES: 10000000
+      INITIAL_STATE_LIMIT: 500
+      HEALING_LIMIT: 500
+      WRITE_INITIAL_STATE: "false"
+    volumes:
+      - ./config/ldes:/config
+      - ./data/ldes-feed/:/data/
+    restart: always
+    logging: *default-logging
+    labels:
+      - "logging=true"
+  ldes-backend:
+    image: redpencil/fragmentation-producer:0.4.2
+    restart: always
+    logging: *default-logging
+    labels:
+      - "logging=true"
+    environment:
+      BASE_URL: "https://qa.ipdc-ldes-mirror.lblod.info/instancesnapshots/"
+      LDES_STREAM_PREFIX: "https://qa.ipdc-ldes-mirror.lblod.info/instancesnapshots/"
+      FOLDER_DEPTH: 1
+      PAGE_RESOURCES_COUNT: 20
+      TIME_TREE_RELATION_PATH: "http://www.w3.org/ns/prov#generatedAtTime"
+      CACHE_SIZE: 10
+      DATA_FOLDER: "/data"
+      ENABLE_AUTH: "false"
+    volumes:
+      - ./data/ldes-feed/:/data/
+
+  ################################################################################
+  # LDES PRODUCERS: END
+  ################################################################################
+
+  ################################################################################
+  # LDES CONSUMER
+  ################################################################################
       
   ipdc-ldes-consumer:
     image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
@@ -111,6 +163,10 @@ services:
     logging: *default-logging
     labels:
       - "logging=true"
+
+  ################################################################################
+  # LDES CONSUMER: END
+  ################################################################################
 
   uuid-generation:
     image: redpencil/uuid-generation:0.4.0

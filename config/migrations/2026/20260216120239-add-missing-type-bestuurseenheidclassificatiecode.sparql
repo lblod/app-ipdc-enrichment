@@ -1,0 +1,15 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+PREFIX ns3: <http://data.vlaanderen.be/id/conceptscheme/>
+
+INSERT {
+  GRAPH <http://mu.semte.ch/graphs/public> {
+    ?s rdf:type ext:BestuurseenheidClassificatieCode .
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/public> {
+    ?s skos:inScheme ns3:BestuurseenheidClassificatieCode .
+  }
+}
