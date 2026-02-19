@@ -59,7 +59,7 @@ ext:beschrijvingF
 
 ext:bestuurseenheidClassificatieF
     a form:Field;
-    form:displayType displayTypes:conceptSchemeSelector;
+    form:displayType displayTypes:conceptSchemeMultiSelector;
     sh:group ext:mainPG;
     sh:name "Doelgroep";
     sh:order 3;
