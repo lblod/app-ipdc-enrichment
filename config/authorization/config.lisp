@@ -48,14 +48,12 @@
   )
 
 
-;;;;;;;;;
-;; Graphs
-;;
-;; These are the graph specifications known in the system.  No
-;; guarantees are given as to what content is readable from a graph.  If
-;; two graphs are nearly identitacl and have the same name, perhaps the
-;; specifications can be folded too.  This could help when building
-;; indexes.
+(supply-allowed-group "authenticated"
+  :query "PREFIX session: <http://mu.semte.ch/vocabularies/session/>
+
+          SELECT DISTINCT ?account WHERE {
+            <SESSION_ID> session:account ?account.
+          }")
 
 (define-graph public ("http://mu.semte.ch/graphs/public")
   (_ -> _)) ; public allows ANY TYPE -> ANY PREDICATE in the direction
@@ -80,21 +78,20 @@
   ("schema:ContactPoint" -> _)
   ("locn:Address" -> _)
   ("cpsv:Rule" -> _)
-  ("eli:LegalResource" -> _)
-  ("icr:isRelevantForAdministrativeUnit" -> _))
+  ("eli:LegalResource" -> _))
 
 ;;;;;;;;;;;;;
 ;; User roles
 
 (supply-allowed-group "public")
 
-(grant (read write)
+(grant (read)
        :to-graph public
        :for-allowed-group "public")
 
-(grant (read)
-  :to-graph (ipdc)
-  :for-allowed-group "public")
+(grant (read write)
+       :to-graph ipdc
+       :for-allowed-group "authenticated")
 
 ;; example:
 
