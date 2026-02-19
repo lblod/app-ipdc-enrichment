@@ -23,7 +23,7 @@ services:
     logging: *default-logging
 
   frontend:
-    image: lblod/frontend-ipdc-enrichment:0.1.0
+    image: lblod/frontend-ipdc-enrichment:0.2.0
     links:
       - identifier:backend
     labels:
