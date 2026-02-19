@@ -2,6 +2,16 @@
 ## Unreleased
 ### Deploy notes
 
+## 0.2.0
+- [DL-7102] Setup ldes streams to re-publish the data by @aatauil in #9
+- DL-7137 [IPDC-Enrich] ACIMDM T&I - Make it functional
+- DL-7193 Update LDES_BASE URL to new migrated one
+- DL-7168 [IPDC-Enrich] Always fetch same @ nl string in fields
+- DL-7191 [IPDC Enrich] Cleanup story
+- DL-7194 [IPDC Enrich] Add doelgroep filter
+### Deploy notes
+`drc restart`
+
 ## 0.1.0
 - [DL-7144] Add public-service edit functionality
 - [DL-7101] Introduce concept/concept-scheme model & route
