@@ -1,0 +1,175 @@
+import { addData, getConfigFromEnv } from "@lblod/ldes-producer";
+import { rm } from "fs/promises";
+import * as fs from "node:fs";
+import { sparqlEscapeUri } from "./utils.mjs";
+const INPUT_GRAPH = "http://mu.semte.ch/graphs/ipdc/ldes-data";
+const LDES_FOLDER = "ipdc-enriched";
+const LDES_FRAGMENTER = undefined;
+
+const RESOURCE_TYPES = JSON.parse(
+  fs.readFileSync(
+    "/project/config/ldes/resource_types.json",
+    "utf8"
+  )
+);
+
+process.env.FOLDER_DEPTH = "1";
+process.env.PAGE_RESOURCES_COUNT = "50";
+process.env.LDES_STREAM_PREFIX = "http://data.lblod.info/ldes/ipdc-enriched/version/"
+process.env.TIME_TREE_RELATION_PATH =
+  "http://www.w3.org/ns/prov#generatedAtTime";
+process.env.CACHE_SIZE = "10";
+process.env.DATA_FOLDER = "/project/data/ldes-feed";
+
+if (!process.env.BASE_URL) {
+  console.error("missing argument BASE_URL");
+  process.exit(-1);
+}
+
+if (process.env.BASE_URL.endsWith("/")) {
+  console.error("base url should not end with a trailing slash");
+  process.exit(-1);
+}
+
+export async function waitForDatabase() {
+  while (true) {
+    try {
+      const response = await fetch(
+        `${process.env.MU_SPARQL_ENDPOINT}?query=${encodeURIComponent(
+          "ASK { ?s ?p ?o }"
+        )}&format=${encodeURIComponent("text/plain")}`,
+        {
+          method: "post",
+          headers: {
+            Accept: "text/plain",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`http error! status: ${response.status}`);
+      }
+      break;
+    } catch (e) {
+      console.log("wait for database...");
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  }
+}
+async function main() {
+  await waitForDatabase();
+  const ldesProducerConfig = getConfigFromEnv();
+  const targetFolder = `${process.env.DATA_FOLDER}/${LDES_FOLDER}`;
+  await deleteDirectory(targetFolder);
+  const count = await getTotalCount();
+  const limit = 100;
+  const totalPages = calculatePages(count, limit);
+  console.log("count:", count, "total pages:", totalPages);
+  for (let page = 1; page <= totalPages; page++) {
+    // Note; the query is structured that we have 'complete' subjects per batch
+    // hence, pushing to ldes is ok to do per batch.
+    let triples = await getGraphTriples(page, limit);
+    if (triples.length) {
+      console.log(`Pushing ${triples.length} triples to ${JSON.stringify(ldesProducerConfig)}`);
+      console.log(`${LDES_FRAGMENTER} and ${LDES_FOLDER}`);
+      await addData(ldesProducerConfig, {
+        contentType: "text/turtle",
+        folder: LDES_FOLDER,
+        body: triples,
+        fragmenter: LDES_FRAGMENTER,
+      });
+    }
+  }
+}
+function calculatePages(totalCount, limit) {
+  return Math.ceil(totalCount / limit);
+}
+async function getTotalCount() {
+  const countQuery = `
+    SELECT (COUNT(DISTINCT *) AS ?count)
+    WHERE {
+      GRAPH <${INPUT_GRAPH}>{
+        ?s ?p ?o.
+        FILTER EXISTS {
+          ?s a ?type.
+          FILTER (?type IN (
+            ${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}
+          ))
+        }
+      }
+    }
+  `;
+
+  const response = await fetch(
+    `${process.env.MU_SPARQL_ENDPOINT}?query=${encodeURIComponent(countQuery)}`,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/sparql-results+json",
+      },
+    }
+  );
+
+  const result = await response.json();
+  const count = parseInt(result.results.bindings[0].count.value, 10);
+  return count;
+}
+async function getGraphTriples(page, limit) {
+  const offset = (page - 1) * limit;
+  const q = `
+    CONSTRUCT {?s ?p ?o} WHERE
+    {
+      {
+        SELECT DISTINCT ?s WHERE {
+           GRAPH <${INPUT_GRAPH}> {
+             ?s a ?type.
+             FILTER(?type in (${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}))
+          }
+        }
+        ORDER BY ?s
+        LIMIT ${limit}
+        OFFSET ${offset}
+      }
+
+      GRAPH <${INPUT_GRAPH}> {
+        ?s ?p ?o
+      }
+    }
+`;
+  console.log(q);
+
+  return await fetchNTriples(q);
+}
+
+async function deleteDirectory(path) {
+  try {
+    await rm(path, { recursive: true, force: true });
+  } catch (error) {
+    console.error(`Error while deleting directory ${path}:`, error);
+  }
+}
+async function fetchNTriples(query) {
+  try {
+    const response = await fetch(
+      `${process.env.MU_SPARQL_ENDPOINT}?query=${encodeURIComponent(
+        query
+      )}&format=${encodeURIComponent("text/plain")}`,
+      {
+        method: "post",
+        headers: {
+          Accept: "text/plain",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`http error! status: ${response.status}`);
+    }
+
+    return await response.text();
+  } catch (error) {
+    console.error("Error:", error);
+    process.exit(-1);
+  }
+}
+main().then();

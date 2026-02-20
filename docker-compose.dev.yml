@@ -32,6 +32,16 @@ services:
 
   form-content:
     restart: "no"
-    
+
   ipdc-ldes-consumer:
     restart: "no"
+
+  ldes-delta-pusher:
+    restart: "no"
+    environment:
+      LDES_BASE: "http://localhost/ldes-feed/"
+
+  ldes-backend:
+    restart: "no"
+    environment:
+      BASE_URL: "http://localhost/ldes-feed/"

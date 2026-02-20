@@ -98,6 +98,12 @@ defmodule Dispatcher do
   get "/websites/*path" do
     Proxy.forward conn, path, "http://resource/websites/"
   end
+  ###############################################################
+  # ldes
+  ###############################################################
+  get "/ldes-feed/*path" do
+    Proxy.forward conn, path, "http://ldes-backend/"
+  end
   #############################################################################
   # Others
   #############################################################################

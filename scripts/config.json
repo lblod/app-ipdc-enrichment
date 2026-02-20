@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "scripts": [
+    {
+      "documentation": {
+        "command": "init-ldes-data",
+        "description": "init ldes with existing data on a given graph",
+        "arguments": []
+      },
+      "environment": {
+        "image": "node:20",
+        "interactive": false,
+        "script": "init-ldes-data/run.sh",
+        "join_networks": true
+      },
+      "mounts": {
+        "app": "/project/"
+      }
+    }
+  ]
+}
