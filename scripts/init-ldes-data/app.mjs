@@ -62,20 +62,23 @@ async function main() {
   const targetFolder = `${process.env.DATA_FOLDER}/${LDES_FOLDER}`;
   await deleteDirectory(targetFolder);
   const count = await getTotalCount();
-  const limit = 10000;
+  const limit = 100;
   const totalPages = calculatePages(count, limit);
   console.log("count:", count, "total pages:", totalPages);
-  let triples = "";
   for (let page = 1; page <= totalPages; page++) {
-    triples += await getGraphTriples(page, limit);
-  }
-  if (triples.length) {
-    await addData(ldesProducerConfig, {
-      contentType: "text/turtle",
-      folder: LDES_FOLDER,
-      body: triples,
-      fragmenter: LDES_FRAGMENTER,
-    });
+    // Note; the query is structured that we have 'complete' subjects per batch
+    // hence, pushing to ldes is ok to do per batch.
+    let triples = await getGraphTriples(page, limit);
+    if (triples.length) {
+      console.log(`Pushing ${triples.length} triples to ${JSON.stringify(ldesProducerConfig)}`);
+      console.log(`${LDES_FRAGMENTER} and ${LDES_FOLDER}`);
+      await addData(ldesProducerConfig, {
+        contentType: "text/turtle",
+        folder: LDES_FOLDER,
+        body: triples,
+        fragmenter: LDES_FRAGMENTER,
+      });
+    }
   }
 }
 function calculatePages(totalCount, limit) {
