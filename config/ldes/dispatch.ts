@@ -1,6 +1,5 @@
 import { moveTriples } from "../support";
 import { Changeset, Quad } from "./types";
-import { enrichWithDownloadURLs } from "./add-download-url";
 import { querySudo } from "@lblod/mu-auth-sudo";
 import { sparqlEscapeUri } from "mu";
 import { RESOURCE_TYPES } from "./constants";
@@ -18,34 +17,17 @@ export default async function dispatch(changesets: Changeset[]) {
   if(!subjects.length){
     return;
   }
-  console.log("dispatching...");
-  // await enrichWithDownloadURLs(subjects, LDES_BASE as string);
+  console.log("Dispatching...");
   for (const subject of subjects) {
     const {
       results: { bindings },
     } = await querySudo(/* sparql */ `
-        PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
-        PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
-        PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
-        PREFIX lblodmow: <http://data.lblod.info/vocabularies/mobiliteit/>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-        PREFIX cidoc: <http://www.cidoc-crm.org/cidoc-crm/>
-        PREFIX tribont: <https://w3id.org/tribont/core#>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        PREFIX as: <https://www.w3.org/ns/activitystreams#>
-        PREFIX variables: <http://lblod.data.gift/vocabularies/variables/>
-        PREFIX qudt: <http://qudt.org/schema/qudt/>
-        PREFIX icr: <http://lblod.data.gift/vocabularies/informationclassification/>
-
         CONSTRUCT {
             ?s ?p ?o
         } WHERE {
             GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
-              ?s 
-                a ?type; 
-                ?p ?o;
-                icr:isRelevantForAdministrativeUnit ?bestuurseenheidClassificatieCode .
+              ?s a ?type;
+                ?p ?o.
             }
             VALUES ?s {${sparqlEscapeUri(subject)} }
             FILTER (?type IN (
@@ -78,6 +60,12 @@ export default async function dispatch(changesets: Changeset[]) {
   }
 }
 
+// Note: the reason we have this filter here:
+//  This is to mitigate a side effect of the track-modified-service, which
+//   updates the modified date a bit later than the effective change
+//  To avoid the multiple re-publish of a resource mearly because the
+//   modified date has been updated, we add the filter here.
+//  The track-modified-service is needed for the healing to work correctly.
 function filterOutIrrelevantChanges(changesets: Changeset[]): Changeset[] {
   return changesets.map((changeset) => {
     const filterFn = (quad: Quad) =>
@@ -94,6 +82,9 @@ export function mapToSubjects(changesets: Changeset[]) {
   for (const changeset of changesets) {
     changeset.inserts.forEach((insert) => {
       subjects.add(insert.subject.value as string);
+    });
+    changeset.deletes.forEach((deleteTriple) => {
+      subjects.add(deleteTriple.subject.value as string);
     });
   }
   return Array.from(subjects);
