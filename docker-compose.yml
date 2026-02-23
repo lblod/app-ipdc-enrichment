@@ -163,7 +163,7 @@ services:
       INGEST_MODE: "MATERIALIZE"
       REPLACE_VERSIONS: "true"
       PERSIST_STATE: "true"
-      SPARQL_BATCH_SIZE: "500"
+      SPARQL_BATCH_SIZE: "50"
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       NODE_OPTIONS: "--max-old-space-size=8192"
