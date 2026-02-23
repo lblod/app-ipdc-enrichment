@@ -39,6 +39,8 @@
   :ext "http://mu.semte.ch/vocabularies/ext/"
   :ipdc "https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#"
   :schema "http://schema.org/"
+  :foaf "http://xmlns.com/foaf/0.1/"
+  :adms "http://www.w3.org/ns/adms#"
   :m8g "http://data.europa.eu/m8g/"
   :locn "http://www.w3.org/ns/locn#"
   :cpsv "http://purl.org/vocab/cpsv#"
@@ -48,25 +50,14 @@
   )
 
 
-(supply-allowed-group "authenticated"
-  :query "PREFIX session: <http://mu.semte.ch/vocabularies/session/>
-
-          SELECT DISTINCT ?account WHERE {
-            <SESSION_ID> session:account ?account.
-          }")
-
 (define-graph public ("http://mu.semte.ch/graphs/public")
   (_ -> _)) ; public allows ANY TYPE -> ANY PREDICATE in the direction
             ; of the arrow
 
-;; Example:
-;; (define-graph company ("http://mu.semte.ch/graphs/companies/")
-;;   ("foaf:OnlineAccount"
-;;    -> "foaf:accountName"
-;;    -> "foaf:accountServiceHomepage")
-;;   ("foaf:Group"
-;;    -> "foaf:name"
-;;    -> "foaf:member"))
+(define-graph org ("http://mu.semte.ch/graphs/organizations/")
+  ("foaf:Person" -> _)
+  ("foaf:OnlineAccount" -> _)
+  ("adms:Identifier" -> _))
 
 (define-graph ipdc ("http://mu.semte.ch/graphs/ipdc/ldes-data")
   ("ipdc:InstancePublicServiceSnapshot" -> _)
@@ -85,23 +76,29 @@
 
 (supply-allowed-group "public")
 
+(supply-allowed-group "organization"
+  :parameters ("session_group")
+  :query "PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+          PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
+          SELECT DISTINCT ?session_group WHERE {
+            <SESSION_ID> ext:sessionGroup/mu:uuid ?session_group
+            }")
+
+(supply-allowed-group "logged-in"
+  :query "PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+          PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
+          SELECT DISTINCT ?session_group WHERE {
+            <SESSION_ID> ext:sessionGroup/mu:uuid ?session_group
+            }")
+
 (grant (read)
        :to-graph public
        :for-allowed-group "public")
 
+(grant (read)
+       :to-graph org
+       :for-allowed-group "organization")
+
 (grant (read write)
        :to-graph ipdc
-       :for-allowed-group "authenticated")
-
-;; example:
-
-;; (supply-allowed-group "company"
-;;   :query "PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
-;;           SELECT DISTINCT ?uuid WHERE {
-;;             <SESSION_ID ext:belongsToCompany/mu:uuid ?uuid
-;;           }"
-;;   :parameters ("uuid"))
-
-;; (grant (read write)
-;;        :to company
-;;        :for "company")
+       :for-allowed-group "logged-in")
