@@ -1,6 +1,16 @@
 # Changelog
 ## Unreleased
+ - Setup ldes-feed: DL-7102
+ 
 ### Deploy notes
+Ensure in `docker-compose.override.yml`
+```
+services:
+  # (...)
+  ldes-delta-pusher:
+    environment:
+      LDES_BASE: "https://qa.ipdc-ldes-mirror.lblod.info/ldes-feed/"
+```
 
 ## 0.2.0
 - [DL-7102] Setup ldes streams to re-publish the data by @aatauil in #9
