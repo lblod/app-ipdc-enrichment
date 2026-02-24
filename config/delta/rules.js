@@ -9,7 +9,7 @@ export default [
     },
     options: {
       resourceFormat: "v0.0.1",
-      gracePeriod: 1000,
+      gracePeriod: 15000,
       foldEffectiveChanges: true,
       ignoreFromSelf: true,
     },
@@ -42,5 +42,21 @@ export default [
       ignoreFromSelf: true,
       _comment: "We explicitly don't want to fold effective changes, since uuid-generation service only handles on inserts with pattern '?s a <type-uri>'"
     }
-  }
+  },
+  {
+    match: {
+      subject: {},
+    },
+    callback: {
+      url: "http://modified/delta",
+      method: "POST",
+    },
+    options: {
+      resourceFormat: "v0.0.1",
+      gracePeriod: 10000,
+      retry: 3,
+      ignoreFromSelf: true,
+      retryTimeout: 250,
+    },
+  },
 ];

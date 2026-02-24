@@ -23,7 +23,7 @@ services:
     logging: *default-logging
 
   frontend:
-    image: lblod/frontend-ipdc-enrichment:0.2.0
+    image: lblod/frontend-ipdc-enrichment:0.2.1
     links:
       - identifier:backend
     labels:
@@ -95,21 +95,26 @@ services:
   # LDES PRODUCERS
   ################################################################################
   ldes-delta-pusher:
-    image: redpencil/ldes-delta-pusher:1.2.7
+    image: redpencil/ldes-delta-pusher:1.2.9
     environment:
       LDES_ENDPOINT: "http://ldes-backend"
-      LDES_BASE: "https://qa.ipdc-ldes-mirror.lblod.info/instancesnapshots"
-      LDES_FOLDER: public
+      # Note: we will always work with this feed, as the loket app only works correctly with production data from IPDC
+      LDES_BASE: "https://ipdc-ldes-mirror.lblod.info/ldes-feed/"
+      LDES_FOLDER: "ipdc-enriched"
       DATA_FOLDER: /data
       CRON_HEALING: "0 0 0 * * *" # Every day at midnight
       AUTO_HEALING: "true"
-      CRON_CHECKPOINT: "0 0 5 1 * *"
       SUDO_QUERY_RETRY_TIMEOUT_INCREMENT_FACTOR: 0.003
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: 429,500,502,503,504
-      MAX_PAGE_SIZE_BYTES: 10000000
       INITIAL_STATE_LIMIT: 500
       HEALING_LIMIT: 500
-      WRITE_INITIAL_STATE: "false"
+      WRITE_INITIAL_STATE: "false" # This is replaced by a mu script
+      DIRECT_DB_ENDPOINT: "http://triplestore:8890/sparql"
+      # Note: these variables are documented in https://github.com/lblod/ldes-producer.
+      #  This repo is a dependency of this service.
+      PAGE_RESOURCES_COUNT: 20
+      FOLDER_DEPTH: 1
+      LDES_STREAM_PREFIX: "http://data.lblod.info/ldes/ipdc-enriched/version/"
     volumes:
       - ./config/ldes:/config
       - ./data/ldes-feed/:/data/
@@ -118,22 +123,27 @@ services:
     labels:
       - "logging=true"
   ldes-backend:
-    image: redpencil/fragmentation-producer:0.4.2
+    image: lblod/ldes-serve-feed-service:0.4.0
     restart: always
     logging: *default-logging
     labels:
       - "logging=true"
     environment:
-      BASE_URL: "https://qa.ipdc-ldes-mirror.lblod.info/instancesnapshots/"
-      LDES_STREAM_PREFIX: "https://qa.ipdc-ldes-mirror.lblod.info/instancesnapshots/"
-      FOLDER_DEPTH: 1
-      PAGE_RESOURCES_COUNT: 20
-      TIME_TREE_RELATION_PATH: "http://www.w3.org/ns/prov#generatedAtTime"
-      CACHE_SIZE: 10
+      # Update these per deploy environment!
+      BASE_URL: "https://qa.ipdc-ldes-mirror.lblod.info/ldes-feed/"
+      CACHE_SIZE: 100
       DATA_FOLDER: "/data"
-      ENABLE_AUTH: "false"
     volumes:
       - ./data/ldes-feed/:/data/
+
+  modified:
+    image: lblod/track-modified-service:0.2.0
+    labels:
+      - "logging=true"
+    volumes:
+      - ./config/modified:/config
+    restart: always
+    logging: *default-logging
 
   ################################################################################
   # LDES PRODUCERS: END
@@ -142,18 +152,18 @@ services:
   ################################################################################
   # LDES CONSUMER
   ################################################################################
-      
+
   ipdc-ldes-consumer:
     image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
     volumes:
       - ./data/ldes-consumer:/data
     environment:
-      LDES_ENDPOINT_VIEW: "https://ipdc-ldes-mirror.lblod.info/ldes/ipdc-products"
+      LDES_ENDPOINT_VIEW: "https://ipdc-ldes-mirror.lblod.info/instancesnapshots"
       MU_APPLICATION_GRAPH: "http://mu.semte.ch/graphs/ipdc/ldes-data"
       INGEST_MODE: "MATERIALIZE"
       REPLACE_VERSIONS: "true"
       PERSIST_STATE: "true"
-      SPARQL_BATCH_SIZE: "500"
+      SPARQL_BATCH_SIZE: "50"
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       NODE_OPTIONS: "--max-old-space-size=8192"
@@ -176,3 +186,9 @@ services:
     volumes:
       - ./config/uuid-generation/:/config
     restart: always
+
+  project-scripts:
+    image: semtech/mu-scripts:1.0.0
+    volumes:
+      - ./scripts/:/app/scripts/
+    restart: "no"
