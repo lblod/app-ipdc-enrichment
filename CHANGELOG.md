@@ -9,6 +9,12 @@ The easiest will be to full flush everything
     git checkout data
     docker compose up -d
 ```
+
+## 0.2.1
+ - Fix ACMIDM login issues 
+### deploy notes   `
+ - `drc up -d`
+ - `drc restart login database` 
 ## 0.2.0
 - [DL-7102] Setup ldes streams to re-publish the data by @aatauil in #9
 - DL-7137 [IPDC-Enrich] ACIMDM T&I - Make it functional
