@@ -1,17 +1,14 @@
 # Changelog
 ## Unreleased
  - Setup ldes-feed: DL-7102
- 
-### Deploy notes
-Ensure in `docker-compose.override.yml`
+### deploy notes
+The easiest will be to full flush everything
 ```
-services:
-  # (...)
-  ldes-delta-pusher:
-    environment:
-      LDES_BASE: "https://qa.ipdc-ldes-mirror.lblod.info/ldes-feed/"
+    drc down
+    rm -rf data
+    git checkout data
+    docker compose up -d
 ```
-
 ## 0.2.0
 - [DL-7102] Setup ldes streams to re-publish the data by @aatauil in #9
 - DL-7137 [IPDC-Enrich] ACIMDM T&I - Make it functional
