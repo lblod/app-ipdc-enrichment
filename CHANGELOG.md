@@ -1,6 +1,7 @@
 # Changelog
 ## Unreleased
  - Setup ldes-feed: DL-7102
+ - Update `ldes-delta-pusher` to version 1.2.10
 ### deploy notes
 The easiest will be to full flush everything
 ```
