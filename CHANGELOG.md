@@ -1,5 +1,8 @@
 # Changelog
-## Unreleased
+## unreleased
+## deploy notes
+
+## 0.3.0
  - Setup ldes-feed: DL-7102
  - Update `ldes-delta-pusher` to version 1.2.10
 ### deploy notes
