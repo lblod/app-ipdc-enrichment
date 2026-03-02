@@ -95,8 +95,7 @@ services:
   # LDES PRODUCERS
   ################################################################################
   ldes-delta-pusher:
-    image: !reset null
-    build: https://github.com/redpencilio/ldes-delta-pusher-service.git#fix/ldes-namespace
+    image: redpencil/ldes-delta-pusher:1.2.10
     environment:
       LDES_ENDPOINT: "http://ldes-backend"
       # Note: we will always work with this feed, as the loket app only works correctly with production data from IPDC
