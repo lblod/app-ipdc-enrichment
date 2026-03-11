@@ -2,10 +2,14 @@
 ## unreleased
 ## deploy notes
 
+## 0.3.1
+- bump frontend to v0.2.2
+ - `ipdc-ldes-consumer`: enable LDES request throttling
+### deploy notes
+`drc up -d`
 ## 0.3.0
  - Setup ldes-feed: DL-7102
  - Update `ldes-delta-pusher` to version 1.2.10
- - `ipdc-ldes-consumer`: enable LDES request throttling
 ### deploy notes
 The easiest will be to full flush everything
 ```
