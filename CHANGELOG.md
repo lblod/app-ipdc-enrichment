@@ -2,6 +2,10 @@
 ## unreleased
 ## deploy notes
 
+## 0.3.3
+- bump frontend v0.2.5
+### deploy notes
+`drc up -d`
 ## 0.3.2
 - bump frontend v0.2.3
 ### deploy notes
