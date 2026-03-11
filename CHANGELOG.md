@@ -2,6 +2,10 @@
 ## unreleased
 ## deploy notes
 
+## 0.3.2
+- bump frontend v0.2.3
+### deploy notes
+`drc up -d`
 ## 0.3.1
 - bump frontend to v0.2.2
  - `ipdc-ldes-consumer`: enable LDES request throttling
