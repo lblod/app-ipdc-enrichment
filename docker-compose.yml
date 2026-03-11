@@ -23,7 +23,7 @@ services:
     logging: *default-logging
 
   frontend:
-    image: lblod/frontend-ipdc-enrichment:0.2.1
+    image: lblod/frontend-ipdc-enrichment:0.2.2
     links:
       - identifier:backend
     labels:
@@ -170,6 +170,7 @@ services:
       NODE_OPTIONS: "--max-old-space-size=8192"
       LOG_LEVEL: "debug"
       LOG_SPARQL_ALL: true
+      LDES_REQUESTS_PER_MINUTE: 40
     restart: always
     logging: *default-logging
     labels:
