@@ -1,6 +1,15 @@
 # Changelog
 ## unreleased
+- Update `ldes-delta-pusher` to version 1.2.11
 ## deploy notes
+FLush everything:
+```
+    drc down
+    rm -rf data
+    git checkout data
+    docker compose up -d
+```
+
 
 ## 0.3.3
 - bump frontend v0.2.5
