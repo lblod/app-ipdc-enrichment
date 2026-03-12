@@ -155,7 +155,7 @@ services:
   ################################################################################
 
   ipdc-ldes-consumer:
-    image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
+    image: redpencil/ldes-consumer:feature-update-ldes-client
     volumes:
       - ./data/ldes-consumer:/data
     environment:
@@ -164,6 +164,8 @@ services:
       INGEST_MODE: "MATERIALIZE"
       REPLACE_VERSIONS: "true"
       PERSIST_STATE: "true"
+      ORDERING_STRATEGY: "descending"
+      EMIT_LAST_VERSION_ONLY: true
       SPARQL_BATCH_SIZE: "50"
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"

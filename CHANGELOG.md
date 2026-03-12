@@ -1,5 +1,6 @@
 # Changelog
 ## unreleased
+- Update `ipdc-ldes-consumer` to `feature-update-ldes-client` tag
 - Update `ldes-delta-pusher` to version 1.2.11
 ## deploy notes
 FLush everything:
@@ -9,6 +10,7 @@ FLush everything:
     git checkout data
     docker compose up -d
 ```
+Note: the state for the ldes-consumer is now a levelDB folder, no longer a json state file.
 
 
 ## 0.3.3
