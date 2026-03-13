@@ -95,7 +95,7 @@ services:
   # LDES PRODUCERS
   ################################################################################
   ldes-delta-pusher:
-    image: redpencil/ldes-delta-pusher:1.2.10
+    image: redpencil/ldes-delta-pusher:1.2.11
     environment:
       LDES_ENDPOINT: "http://ldes-backend"
       # Note: we will always work with this feed, as the loket app only works correctly with production data from IPDC
@@ -155,7 +155,7 @@ services:
   ################################################################################
 
   ipdc-ldes-consumer:
-    image: redpencil/ldes-consumer:feature-dont-persist-unemitted-members-in-state
+    image: redpencil/ldes-consumer:feature-update-ldes-client
     volumes:
       - ./data/ldes-consumer:/data
     environment:
@@ -164,6 +164,8 @@ services:
       INGEST_MODE: "MATERIALIZE"
       REPLACE_VERSIONS: "true"
       PERSIST_STATE: "true"
+      ORDERING_STRATEGY: "descending"
+      EMIT_LAST_VERSION_ONLY: true
       SPARQL_BATCH_SIZE: "50"
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"

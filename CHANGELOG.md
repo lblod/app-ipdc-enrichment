@@ -1,6 +1,18 @@
 # Changelog
 ## unreleased
+- Update `ipdc-ldes-consumer` to `feature-update-ldes-client` tag
+- Update `ldes-delta-pusher` to version 1.2.11
+- Update `init-ldes-data` script to use correct LDES namespace (https instead of http)
 ## deploy notes
+FLush everything:
+```
+    drc down
+    rm -rf data
+    git checkout data
+    docker compose up -d
+```
+Note: the state for the ldes-consumer is now a levelDB folder, no longer a json state file.
+
 
 ## 0.3.3
 - bump frontend v0.2.5
