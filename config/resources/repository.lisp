@@ -45,6 +45,7 @@
 (add-prefix "foaf" "http://xmlns.com/foaf/0.1/")
 (add-prefix "pav" "http://purl.org/pav/")
 (add-prefix "schema" "http://schema.org/")
+(add-prefix "schema2" "https://schema.org/")
 (add-prefix "locn" "http://www.w3.org/ns/locn#")
 (add-prefix "rdfs" "http://www.w3.org/2000/01/rdf-schema#")
 (add-prefix "time" "http://www.w3.org/2006/time#")
