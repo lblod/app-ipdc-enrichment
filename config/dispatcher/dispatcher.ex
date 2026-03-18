@@ -79,7 +79,7 @@ defmodule Dispatcher do
   #################################################################
   # IPDC
   #################################################################
-  get "/public-services/*path" do
+  match "/public-services/*path" do
     Proxy.forward conn, path, "http://resource/public-services/"
   end
 
