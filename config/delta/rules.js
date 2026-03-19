@@ -16,10 +16,6 @@ export default [
   },
   {
     match: {
-      predicate: {
-        type: 'uri',
-        value: 'https://schema.org/datePublished'
-      },
     },
     callback: {
       url: "http://ldes-delta-pusher/publish",
