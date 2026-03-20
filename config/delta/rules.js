@@ -16,7 +16,6 @@ export default [
   },
   {
     match: {
-      // any
     },
     callback: {
       url: "http://ldes-delta-pusher/publish",
