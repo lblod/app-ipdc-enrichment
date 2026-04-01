@@ -83,7 +83,7 @@ services:
     logging: *default-logging
 
   form-content:
-    image: lblod/form-content-service:0.1.0
+    image: lblod/form-content-service:feature-form-scopes-support-v1
     restart: always
     labels:
       - "logging=true"
