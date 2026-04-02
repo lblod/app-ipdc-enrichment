@@ -12,6 +12,7 @@
                 (:date-created :datetime ,(s-prefix "schema:dateCreated"))
                 (:date-modified :datetime ,(s-prefix "schema:dateModified"))
                 (:product-id :string ,(s-prefix "schema:productID"))
+                (:date-published :datetime ,(s-prefix "schema2:datePublished"))
                 (:concept :url ,(s-prefix "dct:source")))
   :has-one `((concept :via ,(s-prefix "dct:type")
                :as "type")

@@ -1,5 +1,9 @@
 # Changelog
-## unreleased
+## 0.4.0
+- Update `ipdc-ldes-consumer` to `feature-update-ldes-client` tag
+- Update `init-ldes-data` script to use correct LDES namespace (https instead of http)
+- Update `ldes-delta-pusher` to version 1.2.11
+- Introduce publish/unpublish button
 ## deploy notes
 
 ## 0.3.3
