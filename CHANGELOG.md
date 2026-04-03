@@ -1,11 +1,31 @@
 # Changelog
+## unreleased 
+### deploy notes
+
+## 1.0.0 
+- Publishing functionality
+- Re-deploy ipdc-ldes fix
+- [DL-7223]: add extra fields to the public-service detail view form
+- [DL-7256]: add the RO classification
+### deploy notes
+```
+    drc down
+    rm -rf data
+    git checkout data
+    docker compose up -d
+```
 ## 0.4.0
 - Update `ipdc-ldes-consumer` to `feature-update-ldes-client` tag
 - Update `init-ldes-data` script to use correct LDES namespace (https instead of http)
 - Update `ldes-delta-pusher` to version 1.2.11
 - Introduce publish/unpublish button
 ## deploy notes
-
+```
+    drc down
+    rm -rf data
+    git checkout data
+    docker compose up -d
+```
 ## 0.3.3
 - bump frontend v0.2.5
 ### deploy notes
