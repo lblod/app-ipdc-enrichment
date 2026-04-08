@@ -1,8 +1,12 @@
 # Changelog
-## unreleased 
+## unreleased
 ### deploy notes
 
-## 1.0.0 
+## 1.0.1 [2026-04-08]
+ - [DL-7224] bump + beefing up mu-resource
+### deploy notes
+
+## 1.0.0
 - Publishing functionality
 - Re-deploy ipdc-ldes fix
 - [DL-7223]: add extra fields to the public-service detail view form
@@ -52,10 +56,10 @@ The easiest will be to full flush everything
 ```
 
 ## 0.2.1
- - Fix ACMIDM login issues 
+ - Fix ACMIDM login issues
 ### deploy notes   `
  - `drc up -d`
- - `drc restart login database` 
+ - `drc restart login database`
 ## 0.2.0
 - [DL-7102] Setup ldes streams to re-publish the data by @aatauil in #9
 - DL-7137 [IPDC-Enrich] ACIMDM T&I - Make it functional
@@ -75,4 +79,3 @@ The easiest will be to full flush everything
 
 ### Deploy notes
 `drc restart`
-
