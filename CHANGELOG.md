@@ -1,5 +1,8 @@
 # Changelog
 ## unreleased
+### deploy notes
+
+## 1.0.2 [2026-04-09]
 - Fix incorrect `BASE_URL` of the `ldes-backend` service
 ### deploy notes
 - Ensure to set the correct `BASE_URL` for the `ldes-backend` service in `docker-compose.override.yml`
