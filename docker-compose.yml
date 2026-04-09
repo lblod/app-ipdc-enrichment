@@ -131,7 +131,7 @@ services:
       - "logging=true"
     environment:
       # Update these per deploy environment!
-      BASE_URL: "https://qa.ipdc-ldes-mirror.lblod.info/ldes-feed/"
+      BASE_URL: "https://ipdc-verrijking.lblod.info/ldes-feed/"
       CACHE_SIZE: 100
       DATA_FOLDER: "/data"
     volumes:

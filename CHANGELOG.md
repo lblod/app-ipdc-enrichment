@@ -1,7 +1,12 @@
 # Changelog
 ## unreleased
+- Fix incorrect `BASE_URL` of the `ldes-backend` service
 ### deploy notes
-
+- Ensure to set the correct `BASE_URL` for the `ldes-backend` service in `docker-compose.override.yml`
+    * For DEV: `BASE_URL: "https://dev.ipdc-verrijking.lblod.info/ldes-feed/"`
+    * For QA: `BASE_URL: "https://ipdc-verrijking.lblod.info/ldes-feed/"`
+    * For PROD: `BASE_URL: "https://ipdc-verrijking.vlaanderen.be/ldes-feed/"`
+    
 ## 1.0.1 [2026-04-08]
  - [DL-7224] bump + beefing up mu-resource
 ### deploy notes
