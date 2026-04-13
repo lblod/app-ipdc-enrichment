@@ -2,6 +2,14 @@
 ## unreleased
 ### deploy notes
 
+## 1.1.0 [2026-04-13]
+- Frontend tweaks
+
+### deploy notes
+```
+drc up -d frontend
+```
+
 ## 1.0.2 [2026-04-09]
 - Fix incorrect `BASE_URL` of the `ldes-backend` service
 ### deploy notes
