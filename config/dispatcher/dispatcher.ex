@@ -83,6 +83,10 @@ defmodule Dispatcher do
     Proxy.forward conn, path, "http://resource/public-services/"
   end
 
+  get "/search/*path", @json do
+    Proxy.forward conn, path, "http://search/"
+  end
+
   get "/concepts/*path" do
     Proxy.forward conn, path, "http://resource/concepts/"
   end
