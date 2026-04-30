@@ -1,5 +1,4 @@
-x-logging:
-  &default-logging
+x-logging: &default-logging
   driver: "json-file"
   options:
     max-size: "10m"
@@ -23,7 +22,7 @@ services:
     logging: *default-logging
 
   frontend:
-    image: lblod/frontend-ipdc-enrichment:0.5.0
+    image: lblod/frontend-ipdc-enrichment:0.5.1
     links:
       - identifier:backend
     labels:

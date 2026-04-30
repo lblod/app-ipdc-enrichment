@@ -1,6 +1,11 @@
 # Changelog
 ## unreleased
+- bump frontend to v0.5.1 [DL-7282]
+
 ### deploy notes
+```
+drc up -d frontend
+```
 
 ## 1.1.0 [2026-04-13]
 - Frontend tweaks
