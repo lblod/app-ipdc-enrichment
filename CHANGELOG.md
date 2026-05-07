@@ -1,6 +1,12 @@
 # Changelog
 ## unreleased
+- Add mu-search to use similar filtering as loket [DL-7227]
+
 ### deploy notes
+```
+drc up -d elasticsearch search
+drc restart migrations
+``
 
 ## 1.1.0 [2026-04-13]
 - Frontend tweaks
