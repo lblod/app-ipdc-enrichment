@@ -10,3 +10,4 @@ data/ldes-feed
 
 node_modules/
 docker-compose.override.yml
+config/search/update-handler.store
