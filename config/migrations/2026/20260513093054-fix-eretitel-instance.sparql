@@ -1,0 +1,22 @@
+PREFIX ipdc: <https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX m8g: <http://data.europa.eu/m8g/>
+PREFIX icr: <http://lblod.data.gift/vocabularies/informationclassification/>
+
+INSERT {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    <https://ipdc.vlaanderen.be/id/instantie/60625f27-8485-489b-bfc1-08cb91a22144>
+      ipdc:targetAudience <https://productencatalogus.data.vlaanderen.be/id/concept/Doelgroep/VlaamseOverheid> ;
+      ipdc:targetAudience <https://productencatalogus.data.vlaanderen.be/id/concept/Doelgroep/LokaalBestuur> ;
+      ipdc:targetAudience <https://productencatalogus.data.vlaanderen.be/id/concept/Doelgroep/Burger> ;
+      m8g:thematicArea <https://productencatalogus.data.vlaanderen.be/id/concept/Thema/BurgerOverheid> ;
+      dct:type <https://productencatalogus.data.vlaanderen.be/id/concept/Type/Bewijs> ;
+      icr:isRelevantForAdministrativeUnit <http://data.vlaanderen.be/id/concept/BestuurseenheidClassificatieCode/5ab0e9b8a3b2ca7c5e000001> .
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    <https://ipdc.vlaanderen.be/id/instantie/60625f27-8485-489b-bfc1-08cb91a22144>
+      a <https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#InstancePublicServiceSnapshot> .
+  }
+}
