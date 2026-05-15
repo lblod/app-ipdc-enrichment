@@ -1,10 +1,11 @@
 # Changelog
 ## unreleased
+- bump frontend to v0.5.1 [DL-7282]
 - Add mu-search to use similar filtering as loket [DL-7227]
 
 ### deploy notes
 ```
-drc up -d elasticsearch search
+drc up -d frontend elasticsearch search
 drc restart migrations
 ``
 
