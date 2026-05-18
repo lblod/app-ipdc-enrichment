@@ -6,7 +6,7 @@
 ### deploy notes
 ```
 drc up -d frontend elasticsearch search
-drc restart migrations
+drc restart migrations delta-notifier
 ``
 
 ## 1.1.0 [2026-04-13]

@@ -58,4 +58,21 @@ export default [
       retryTimeout: 250,
     },
   },
+  {
+    match: {
+      graph: {
+        type: "uri",
+        value: "http://mu.semte.ch/graphs/ipdc/ldes-data"
+      }
+    },
+    callback: {
+      url: 'http://search/update',
+      method: 'POST'
+    },
+    options: {
+      resourceFormat: "v0.0.1",
+      gracePeriod: 10000,
+      ignoreFromSelf: true
+    }
+  }
 ];
