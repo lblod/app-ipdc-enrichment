@@ -48,3 +48,8 @@ mu script project-scripts init-ldes-data http://localhost/ldes-feed  # the latte
 ```
 drc exec ldes-delta-pusher curl -X POST  http://localhost/manual-healing
 ```
+### Resetting elasticsearch
+Assuming you are in the root of app-ipdc-enrichment, run:
+```
+/bin/bash scripts/reset-elastic.sh 
+```
