@@ -1,10 +1,12 @@
 # Changelog
 ## unreleased
 - bump frontend to v0.5.1 [DL-7282]
+- add filters like loket [DL-7227],[DL-7395]
 
 ### deploy notes
 ```
 drc up -d frontend
+drc restart migrations
 ```
 
 ## 1.1.0 [2026-04-13]
