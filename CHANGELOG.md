@@ -1,5 +1,5 @@
 # Changelog
-## unreleased
+## 1.2.0 [2026-05-22]
 - bump frontend to v0.5.1 [DL-7282]
 - add filters like loket [DL-7227],[DL-7395]
 
