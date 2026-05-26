@@ -26,13 +26,20 @@ export default async function dispatch(changesets: Changeset[]) {
             ?s ?p ?o
         } WHERE {
             GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
-              ?s a ?type;
-                ?p ?o.
+              ?s a ?type .
             }
-            VALUES ?s {${sparqlEscapeUri(subject)} }
             FILTER (?type IN (
                 ${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}
-          ))
+            ))
+
+            GRAPH ?g {
+              ?s ?p ?o.
+            }
+            VALUES ?g {
+              <http://mu.semte.ch/graphs/ipdc/ldes-data>
+              <http://mu.semte.ch/graphs/ipdc/enrichments>
+            }
+            VALUES ?s { ${sparqlEscapeUri(subject)} }
         }
         `);
     if (bindings.length) {
