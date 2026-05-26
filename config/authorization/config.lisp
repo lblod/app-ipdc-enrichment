@@ -73,7 +73,7 @@
   ("cpsv:Rule" -> _)
   ("eli:LegalResource" -> _))
 
-;; Data that is enriched is written to a separate graph, to prevent data loss when flush happens
+;; Data that is enriched is written to a separate graph, to prevent data loss when a flush happens
 (define-graph ipdc-enrichments ("http://mu.semte.ch/graphs/ipdc/enrichments")
   ("ipdc:InstancePublicServiceSnapshot" -> "icr:isRelevantForAdministrativeUnit"
                                         -> "schema2:datePublished"))
@@ -113,8 +113,3 @@
 (grant (read write)
        :to-graph ipdc-enrichments
        :for-allowed-group "logged-in")
-
-(grant (read write)
-       :to-graph ipdc
-       :for-allowed-group "public"
-       :scopes '("http://services.semantic.works/ipdc-ldes-consumer"))
