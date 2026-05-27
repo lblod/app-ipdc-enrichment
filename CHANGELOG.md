@@ -2,6 +2,7 @@
 ## unreleased
 - bump frontend to v0.5.1 [DL-7282]
 - predicate split via sparql-parser [DL-7350]
+- add filters like loket [DL-7227],[DL-7395]
 
 ### deploy notes
 ```
