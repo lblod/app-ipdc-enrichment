@@ -1,0 +1,34 @@
+PREFIX schema: <https://schema.org/>
+PREFIX lblod: <http://lblod.data.gift/vocabularies/informationclassification/>
+
+DELETE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    ?instance schema:datePublished ?datePublished .
+  }
+}
+INSERT {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/enrichments> {
+    ?instance schema:datePublished ?datePublished .
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    ?instance schema:datePublished ?datePublished .
+  }
+};
+
+DELETE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    ?instance lblod:isRelevantForAdministrativeUnit ?doelgroep .
+  }
+}
+INSERT {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/enrichments> {
+    ?instance lblod:isRelevantForAdministrativeUnit ?doelgroep .
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    ?instance lblod:isRelevantForAdministrativeUnit ?doelgroep .
+  }
+}

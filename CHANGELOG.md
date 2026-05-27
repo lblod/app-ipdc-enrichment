@@ -1,10 +1,13 @@
 # Changelog
 ## unreleased
 - bump frontend to v0.5.1 [DL-7282]
+- predicate split via sparql-parser [DL-7350]
 
 ### deploy notes
 ```
 drc up -d frontend
+drc restart migrations && drc logs -ft --tail=200 migrations # wait for all migrations to run
+drc up -d ldes-delta-pusher database
 ```
 
 ## 1.1.0 [2026-04-13]
