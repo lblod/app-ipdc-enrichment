@@ -39,6 +39,7 @@
   :ext "http://mu.semte.ch/vocabularies/ext/"
   :ipdc "https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#"
   :schema "http://schema.org/"
+  :schema2 "https://schema.org/"
   :foaf "http://xmlns.com/foaf/0.1/"
   :adms "http://www.w3.org/ns/adms#"
   :m8g "http://data.europa.eu/m8g/"
@@ -60,7 +61,8 @@
   ("adms:Identifier" -> _))
 
 (define-graph ipdc ("http://mu.semte.ch/graphs/ipdc/ldes-data")
-  ("ipdc:InstancePublicServiceSnapshot" -> _)
+  (_ x> "icr:isRelevantForAdministrativeUnit"
+     x> "schema2:datePublished")
   ("ipdc:FinancialAdvantage" -> _)
   ("schema:WebSite" -> _)
   ("m8g:Requirement" -> _)
@@ -70,6 +72,11 @@
   ("locn:Address" -> _)
   ("cpsv:Rule" -> _)
   ("eli:LegalResource" -> _))
+
+;; Data that is enriched is written to a separate graph, to prevent data loss when a flush happens
+(define-graph ipdc-enrichments ("http://mu.semte.ch/graphs/ipdc/enrichments")
+  ("ipdc:InstancePublicServiceSnapshot" -> "icr:isRelevantForAdministrativeUnit"
+                                        -> "schema2:datePublished"))
 
 ;;;;;;;;;;;;;
 ;; User roles
@@ -101,4 +108,8 @@
 
 (grant (read write)
        :to-graph ipdc
+       :for-allowed-group "logged-in")
+
+(grant (read write)
+       :to-graph ipdc-enrichments
        :for-allowed-group "logged-in")
