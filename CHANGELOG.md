@@ -5,7 +5,7 @@
 ### deploy notes
 ```
 drc restart migrations && drc logs -ft --tail=200 migrations # wait for all migrations to run
-drc up -d ldes-delta-pusher database
+drc restart ldes-delta-pusher database
 ```
 
 ## 1.2.0 [2026-05-22]
