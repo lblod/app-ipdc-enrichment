@@ -1,11 +1,12 @@
 # Changelog
 ## Unreleased
 - predicate split via sparql-parser [DL-7350]
+- split forms into edit and readOnly [DL7415]
 
 ### deploy notes
 ```
 drc restart migrations && drc logs -ft --tail=200 migrations # wait for all migrations to run
-drc restart ldes-delta-pusher database
+drc restart ldes-delta-pusher database form-content
 ```
 
 ## 1.2.0 [2026-05-22]
