@@ -19,7 +19,6 @@
   a form:Form, form:TopLevelForm;
   form:includes ext:titelF,
                 ext:beschrijvingF,
-                ext:bestuurseenheidClassificatieF,
                 ext:bevoegdeOverheidF,
                 ext:laatstGewijzigdF,
                 ext:typeF,
@@ -34,7 +33,6 @@
 
 ext:mainPG
   a form:PropertyGroup;
-  sh:name "Public service";
   sh:order 1.
 
 ext:titelF
@@ -54,15 +52,6 @@ ext:beschrijvingF
   sh:order 3;
   form:fieldDisabled true;
   sh:path dcterm:description.
-
-ext:bestuurseenheidClassificatieF
-  a form:Field;
-  form:displayType displayTypes:conceptSchemeMultiSelector;
-  sh:group ext:mainPG;
-  sh:name "Doelgroep";
-  sh:order 4;
-  sh:path icr:isRelevantForAdministrativeUnit;
-  form:options """{"conceptScheme":"http://data.vlaanderen.be/id/conceptscheme/BestuurseenheidClassificatieCode","orderBy": "http://purl.org/linked-data/cube#order", "searchEnabled":true}""".
 
 ext:bevoegdeOverheidF
   a form:Field;

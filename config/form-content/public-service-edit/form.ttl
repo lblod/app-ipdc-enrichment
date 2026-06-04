@@ -1,0 +1,40 @@
+@prefix form: <http://lblod.data.gift/vocabularies/forms/>.
+@prefix sh: <http://www.w3.org/ns/shacl#>.
+@prefix mu: <http://mu.semte.ch/vocabularies/core/>.
+@prefix displayTypes: <http://lblod.data.gift/display-types/>.
+@prefix schema: <http://schema.org/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix nie: <http://www.semanticdesktop.org/ontologies/2007/01/19/nie#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix ext: <http://mu.semte.ch/vocabularies/ext/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix dcterm: <http://purl.org/dc/terms/> .
+@prefix icr: <http://lblod.data.gift/vocabularies/informationclassification/>.
+@prefix m8g: <http://data.europa.eu/m8g/>.
+@prefix ipdc: <https://productencatalogus.data.vlaanderen.be/ns/ipdc-lpdc#>.
+@prefix adres: <https://data.vlaanderen.be/ns/adres#>.
+@prefix cpsv: <http://purl.org/vocab/cpsv#>.
+
+<http://data.lblod.info/id/lmb/forms/Public-service-edit>
+  a form:Form, form:TopLevelForm;
+  form:includes ext:bestuurseenheidClassificatieF;
+  sh:group ext:mainPG;
+  form:targetType ext:PublicService;
+  form:targetLabel dcterm:description;
+  form:language "nl";
+  ext:prefix <http://data.lblod.info/id/Public-service/>;
+  mu:uuid "4a4df4c5-d492-468e-bb69-e81831ad2d17".
+
+ext:mainPG
+  a form:PropertyGroup;
+  sh:name "Public service";
+  sh:order 1.
+
+ext:bestuurseenheidClassificatieF
+  a form:Field;
+  form:displayType displayTypes:conceptSchemeMultiSelector;
+  sh:group ext:mainPG;
+  sh:name "Doelgroep";
+  sh:order 4;
+  sh:path icr:isRelevantForAdministrativeUnit;
+  form:options """{"conceptScheme":"http://data.vlaanderen.be/id/conceptscheme/BestuurseenheidClassificatieCode","orderBy": "http://purl.org/linked-data/cube#order", "searchEnabled":true}""".
