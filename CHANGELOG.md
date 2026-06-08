@@ -1,5 +1,5 @@
 # Changelog
-## 1.2.0 [2026-06-08]
+## 1.3.0 [2026-06-08]
 - predicate split via sparql-parser [DL-7350]
 - split forms into edit and readOnly [DL-7415]
 - bump frontend to v0.6.1 [DL-7415]
