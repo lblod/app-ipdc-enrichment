@@ -159,7 +159,7 @@ services:
   ################################################################################
 
   ipdc-ldes-consumer:
-    image: redpencil/ldes-consumer:feature-update-ldes-client
+    image: redpencil/ldes-consumer:feature-custom-member-processing
     volumes:
       - ./data/ldes-consumer:/data
       - ./config/ldes-consumer/process-member.ts:/config/process-member.ts
