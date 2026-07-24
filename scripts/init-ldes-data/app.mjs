@@ -2,7 +2,6 @@ import { addData, getConfigFromEnv } from "@lblod/ldes-producer";
 import { rm } from "fs/promises";
 import * as fs from "node:fs";
 import { sparqlEscapeUri } from "./utils.mjs";
-const INPUT_GRAPH = "http://mu.semte.ch/graphs/ipdc/ldes-data";
 const LDES_FOLDER = "ipdc-enriched";
 const LDES_FRAGMENTER = undefined;
 
@@ -88,14 +87,19 @@ async function getTotalCount() {
   const countQuery = `
     SELECT (COUNT(DISTINCT *) AS ?count)
     WHERE {
-      GRAPH <${INPUT_GRAPH}>{
+      GRAPH ?g {
         ?s ?p ?o.
+        FILTER (?p != prov:generatedAtTime)
         FILTER EXISTS {
           ?s a ?type.
           FILTER (?type IN (
             ${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}
           ))
         }
+      }
+      VALUES ?g {
+        <http://mu.semte.ch/graphs/ipdc/ldes-data>
+        <http://mu.semte.ch/graphs/ipdc/enrichments>
       }
     }
   `;
@@ -121,7 +125,7 @@ async function getGraphTriples(page, limit) {
     {
       {
         SELECT DISTINCT ?s WHERE {
-           GRAPH <${INPUT_GRAPH}> {
+           GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
              ?s a ?type.
              FILTER(?type in (${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}))
           }
@@ -131,8 +135,13 @@ async function getGraphTriples(page, limit) {
         OFFSET ${offset}
       }
 
-      GRAPH <${INPUT_GRAPH}> {
+      GRAPH ?g {
         ?s ?p ?o
+      }
+      FILTER (?p != prov:generatedAtTime)
+      VALUES ?g {
+        <http://mu.semte.ch/graphs/ipdc/ldes-data>
+        <http://mu.semte.ch/graphs/ipdc/enrichments>
       }
     }
 `;
