@@ -157,6 +157,7 @@ services:
     image: redpencil/ldes-consumer:feature-update-ldes-client
     volumes:
       - ./data/ldes-consumer:/data
+      - ./config/ldes-consumer/process-member.ts:/config/process-member.ts
     environment:
       LDES_ENDPOINT_VIEW: "https://ipdc-ldes-mirror.lblod.info/instancesnapshots"
       MU_APPLICATION_GRAPH: "http://mu.semte.ch/graphs/ipdc/ldes-data"

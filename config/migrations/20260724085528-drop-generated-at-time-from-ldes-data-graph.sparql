@@ -1,0 +1,11 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+DELETE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    ?s prov:generatedAtTime ?time.
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+    ?s prov:generatedAtTime ?time.
+  }
+}
