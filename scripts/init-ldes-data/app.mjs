@@ -8,7 +8,7 @@ const LDES_FRAGMENTER = undefined;
 
 const RESOURCE_TYPES = JSON.parse(
   fs.readFileSync(
-    "/project/config/ldes/resource_types.json",
+    "/project/config/ldes-delta-pusher/resource_types.json",
     "utf8"
   )
 );
