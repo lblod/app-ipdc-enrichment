@@ -94,20 +94,13 @@ services:
   # LDES PRODUCERS
   ################################################################################
   ldes-delta-pusher:
-    image: redpencil/ldes-delta-pusher:1.2.11
+    build: https://github.com/redpencilio/ldes-delta-pusher-service.git#fix/initial-state-max-page-size-bytes
     environment:
       LDES_ENDPOINT: "http://ldes-backend"
       # Note: we will always work with this feed, as the loket app only works correctly with production data from IPDC
       LDES_BASE: "https://ipdc-ldes-mirror.lblod.info/ldes-feed/"
       LDES_FOLDER: "ipdc-enriched"
       DATA_FOLDER: /data
-      CRON_HEALING: "0 0 0 * * *" # Every day at midnight
-      AUTO_HEALING: "true"
-      SUDO_QUERY_RETRY_TIMEOUT_INCREMENT_FACTOR: 0.003
-      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: 429,500,502,503,504
-      INITIAL_STATE_LIMIT: 500
-      HEALING_LIMIT: 500
-      WRITE_INITIAL_STATE: "false" # This is replaced by a mu script
       DIRECT_DB_ENDPOINT: "http://triplestore:8890/sparql"
       # Note: these variables are documented in https://github.com/lblod/ldes-producer.
       #  This repo is a dependency of this service.
@@ -115,6 +108,18 @@ services:
       FOLDER_DEPTH: 1
       LDES_STREAM_PREFIX: "http://data.lblod.info/ldes/ipdc-enriched/version/"
       USE_CORRECT_LDES_NAMESPACE: true
+
+      CRON_HEALING: "0 0 0 * * *" # Every day at midnight
+      AUTO_HEALING: "true"
+      HEALING_LIMIT: 500
+
+      WRITE_INITIAL_STATE: false # This is replaced by a mu script
+      CRON_CHECKPOINT: "0 0 4 1 */2 *" # At 04:00 on day-of-month 1 in every 2nd month.
+      INITIAL_STATE_LIMIT: 1000 # query batch size used for initial state and checkpoints
+      MAX_PAGE_SIZE_BYTES: 10000000 # 5MB, max page size of initial state and checkpoints
+
+      SUDO_QUERY_RETRY_TIMEOUT_INCREMENT_FACTOR: 0.003
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: 429,500,502,503,504
     volumes:
       - ./config/ldes-delta-pusher:/config
       - ./data/ldes-feed/:/data/
@@ -166,13 +171,13 @@ services:
       PERSIST_STATE: "true"
       ORDERING_STRATEGY: "descending"
       EMIT_LAST_VERSION_ONLY: true
-      SPARQL_BATCH_SIZE: "50"
+      SPARQL_BATCH_SIZE: 1000
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       NODE_OPTIONS: "--max-old-space-size=8192"
       LOG_LEVEL: "debug"
-      LOG_SPARQL_ALL: true
-      LDES_REQUESTS_PER_MINUTE: 40
+      LOG_SPARQL_ALL: false
+      LDES_REQUESTS_PER_MINUTE: 400
     restart: always
     logging: *default-logging
     labels:
