@@ -13,7 +13,7 @@ const RESOURCE_TYPES = JSON.parse(
 );
 
 process.env.FOLDER_DEPTH = "1";
-process.env.PAGE_RESOURCES_COUNT = "50";
+process.env.PAGE_RESOURCES_COUNT = "100";
 process.env.LDES_STREAM_PREFIX = "http://data.lblod.info/ldes/ipdc-enriched/version/"
 process.env.TIME_TREE_RELATION_PATH =
   "http://www.w3.org/ns/prov#generatedAtTime";
