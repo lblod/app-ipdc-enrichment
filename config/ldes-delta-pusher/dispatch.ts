@@ -22,6 +22,7 @@ export default async function dispatch(changesets: Changeset[]) {
     const {
       results: { bindings },
     } = await querySudo(/* sparql */ `
+        PREFIX prov: <http://www.w3.org/ns/prov#>
         CONSTRUCT {
             ?s ?p ?o
         } WHERE {
@@ -35,6 +36,7 @@ export default async function dispatch(changesets: Changeset[]) {
             GRAPH ?g {
               ?s ?p ?o.
             }
+            FILTER (?p != prov:generatedAtTime)
             VALUES ?g {
               <http://mu.semte.ch/graphs/ipdc/ldes-data>
               <http://mu.semte.ch/graphs/ipdc/enrichments>
