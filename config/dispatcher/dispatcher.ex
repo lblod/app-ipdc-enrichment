@@ -101,6 +101,10 @@ defmodule Dispatcher do
   ###############################################################
   # ldes
   ###############################################################
+  get "/ldes-feed/checkpoints/*path" do
+    Proxy.forward conn, path, "http://ldes-delta-pusher/checkpoints/"
+  end
+
   get "/ldes-feed/*path" do
     Proxy.forward conn, path, "http://ldes-backend/"
   end

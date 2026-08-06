@@ -2,19 +2,18 @@ import { addData, getConfigFromEnv } from "@lblod/ldes-producer";
 import { rm } from "fs/promises";
 import * as fs from "node:fs";
 import { sparqlEscapeUri } from "./utils.mjs";
-const INPUT_GRAPH = "http://mu.semte.ch/graphs/ipdc/ldes-data";
 const LDES_FOLDER = "ipdc-enriched";
 const LDES_FRAGMENTER = undefined;
 
 const RESOURCE_TYPES = JSON.parse(
   fs.readFileSync(
-    "/project/config/ldes/resource_types.json",
+    "/project/config/ldes-delta-pusher/resource_types.json",
     "utf8"
   )
 );
 
 process.env.FOLDER_DEPTH = "1";
-process.env.PAGE_RESOURCES_COUNT = "50";
+process.env.PAGE_RESOURCES_COUNT = "100";
 process.env.LDES_STREAM_PREFIX = "http://data.lblod.info/ldes/ipdc-enriched/version/"
 process.env.TIME_TREE_RELATION_PATH =
   "http://www.w3.org/ns/prov#generatedAtTime";
@@ -61,7 +60,7 @@ async function main() {
   const ldesProducerConfig = getConfigFromEnv();
   const targetFolder = `${process.env.DATA_FOLDER}/${LDES_FOLDER}`;
   await deleteDirectory(targetFolder);
-  const count = await getTotalCount();
+  const count = await getTotalSubjectCount();
   const limit = 100;
   const totalPages = calculatePages(count, limit);
   console.log("count:", count, "total pages:", totalPages);
@@ -84,19 +83,16 @@ async function main() {
 function calculatePages(totalCount, limit) {
   return Math.ceil(totalCount / limit);
 }
-async function getTotalCount() {
+async function getTotalSubjectCount() {
   const countQuery = `
-    SELECT (COUNT(DISTINCT *) AS ?count)
+    SELECT (COUNT(DISTINCT ?s) AS ?count)
     WHERE {
-      GRAPH <${INPUT_GRAPH}>{
-        ?s ?p ?o.
-        FILTER EXISTS {
-          ?s a ?type.
-          FILTER (?type IN (
-            ${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}
-          ))
-        }
+      GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+        ?s a ?type.
       }
+      FILTER (?type IN (
+        ${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}
+      ))
     }
   `;
 
@@ -116,23 +112,30 @@ async function getTotalCount() {
 }
 async function getGraphTriples(page, limit) {
   const offset = (page - 1) * limit;
-  const q = `
+  const q = /* sparql */`
+    PREFIX prov: <http://www.w3.org/ns/prov#>
+    
     CONSTRUCT {?s ?p ?o} WHERE
     {
       {
         SELECT DISTINCT ?s WHERE {
-           GRAPH <${INPUT_GRAPH}> {
-             ?s a ?type.
-             FILTER(?type in (${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}))
+          GRAPH <http://mu.semte.ch/graphs/ipdc/ldes-data> {
+            ?s a ?type.
           }
+          FILTER(?type in (${RESOURCE_TYPES.map((type) => sparqlEscapeUri(type)).join(",\n")}))
         }
         ORDER BY ?s
         LIMIT ${limit}
         OFFSET ${offset}
       }
 
-      GRAPH <${INPUT_GRAPH}> {
+      GRAPH ?g {
         ?s ?p ?o
+      }
+      FILTER (?p != prov:generatedAtTime)
+      VALUES ?g {
+        <http://mu.semte.ch/graphs/ipdc/ldes-data>
+        <http://mu.semte.ch/graphs/ipdc/enrichments>
       }
     }
 `;
