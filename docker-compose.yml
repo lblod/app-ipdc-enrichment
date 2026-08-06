@@ -104,8 +104,8 @@ services:
     image: redpencil/ldes-delta-pusher:fix-initial-state-max-page-size-bytes
     environment:
       LDES_ENDPOINT: "http://ldes-backend"
-      # Note: we will always work with this feed, as the loket app only works correctly with production data from IPDC
-      LDES_BASE: "https://ipdc-ldes-mirror.lblod.info/ldes-feed/"
+      # Update these per deploy environment!
+      LDES_BASE: "https://ipdc-verrijking.lblod.info/ldes-feed/"
       LDES_FOLDER: "ipdc-enriched"
       DATA_FOLDER: /data
       DIRECT_DB_ENDPOINT: "http://triplestore:8890/sparql"
