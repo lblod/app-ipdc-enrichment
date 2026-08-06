@@ -178,13 +178,13 @@ services:
       PERSIST_STATE: "true"
       ORDERING_STRATEGY: "descending"
       EMIT_LAST_VERSION_ONLY: true
-      SPARQL_BATCH_SIZE: 1000
+      SPARQL_BATCH_SIZE: 50
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       NODE_OPTIONS: "--max-old-space-size=8192"
       LOG_LEVEL: "debug"
       LOG_SPARQL_ALL: false
-      LDES_REQUESTS_PER_MINUTE: 400
+      LDES_REQUESTS_PER_MINUTE: 40
     restart: always
     logging: *default-logging
     labels:
