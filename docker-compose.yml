@@ -94,7 +94,7 @@ services:
   # LDES PRODUCERS
   ################################################################################
   ldes-delta-pusher:
-    build: https://github.com/redpencilio/ldes-delta-pusher-service.git#fix/initial-state-max-page-size-bytes
+    image: redpencil/ldes-delta-pusher:fix-initial-state-max-page-size-bytes
     environment:
       LDES_ENDPOINT: "http://ldes-backend"
       # Note: we will always work with this feed, as the loket app only works correctly with production data from IPDC
