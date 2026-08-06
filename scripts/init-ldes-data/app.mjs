@@ -112,7 +112,9 @@ async function getTotalSubjectCount() {
 }
 async function getGraphTriples(page, limit) {
   const offset = (page - 1) * limit;
-  const q = `
+  const q = /* sparql */`
+    PREFIX prov: <http://www.w3.org/ns/prov#>
+    
     CONSTRUCT {?s ?p ?o} WHERE
     {
       {
