@@ -123,7 +123,7 @@ services:
       WRITE_INITIAL_STATE: false # This is replaced by a mu script
       CRON_CHECKPOINT: "0 0 4 1 */2 *" # At 04:00 on day-of-month 1 in every 2nd month.
       INITIAL_STATE_LIMIT: 1000 # query batch size used for initial state and checkpoints
-      MAX_PAGE_SIZE_BYTES: 10000000 # 5MB, max page size of initial state and checkpoints
+      MAX_PAGE_SIZE_BYTES: 10000000 # 10MB, max page size of initial state and checkpoints
 
       SUDO_QUERY_RETRY_TIMEOUT_INCREMENT_FACTOR: 0.003
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: 429,500,502,503,504
