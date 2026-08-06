@@ -1,4 +1,19 @@
 # Changelog
+## Unreleased
+- Addition of checkpoints feature [DL-7244]
+- `ipdc-ldes-consumer`: do not consume `prov:generatedAtTime` predicate
+- `ldes-delta-pusher`: do not dispatch `prov:generatedAtTime` predicate
+- `init-ldes-data` script:
+    * fix pagination logic
+    * also read from enrichments graph
+    * do not dispatch `prov:generatedAtTime` predicate.
+
+### deploy notes
+```bash
+drc restart migrations && drc logs -ft --tail=200 migrations # wait for all migrations to run
+drc up ipdc-ldes-consumer ldes-delta-pusher
+```
+
 ## 1.3.0 [2026-06-08]
 - predicate split via sparql-parser [DL-7350]
 - split forms into edit and readOnly [DL-7415]
