@@ -1,5 +1,6 @@
 # Changelog
-## Unreleased
+
+## 1.4.0 [2026-08-06]
 - Addition of checkpoints feature [DL-7244]
 - `ipdc-ldes-consumer`: do not consume `prov:generatedAtTime` predicate
 - `ldes-delta-pusher`: do not dispatch `prov:generatedAtTime` predicate
