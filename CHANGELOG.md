@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+- `ipdc-ldes-consumer`: use mu-auth-scope instead of sudo queries [DL-7358]
+
+### deploy notes
+```bash
+drc restart database
+drc up ipdc-ldes-consumer
+```
+
 ## 1.4.0 [2026-08-06]
 - Addition of checkpoints feature [DL-7244]
 - `ipdc-ldes-consumer`: do not consume `prov:generatedAtTime` predicate

@@ -4,7 +4,7 @@ const { namedNode } = DataFactory;
 const { quad, variable } = DataFactory;
 import type * as RDF from "@rdfjs/types";
 
-import { convertBlankNodes } from "../lib/utils";
+import { convertBlankNodes } from "../lib/utils/rdf";
 import { executeDeleteInsertQuery } from "../lib/sparql-queries";
 
 
