@@ -166,7 +166,7 @@ services:
   ################################################################################
 
   ipdc-ldes-consumer:
-    build: https://github.com/redpencilio/ldes-consumer-service.git#DL-7358-mu-auth-scope-support
+    image: redpencil/ldes-consumer:feature-mu-auth-scope-support
     volumes:
       - ./data/ldes-consumer:/data
       - ./config/ldes-consumer/process-member.ts:/config/process-member.ts
