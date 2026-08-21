@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.5.0 [2026-08-21]
 - `ipdc-ldes-consumer`: use mu-auth-scope instead of sudo queries [DL-7358]
 
 ### deploy notes
