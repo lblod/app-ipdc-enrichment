@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.5.1 [2026-09-28]
 - `ipdc-ldes-consumer`: configure sparql query timeout in ms
 - `ipdc-ldes-consumer`: increase sparql batch size to `1000`
 
