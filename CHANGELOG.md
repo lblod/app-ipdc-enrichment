@@ -1,12 +1,23 @@
 # Changelog
 
-## 1.5.0 [2026-08-21]
-- `ipdc-ldes-consumer`: use mu-auth-scope instead of sudo queries [DL-7358]
+## Unreleased
+- `ipdc-ldes-consumer`: configure sparql query timeout in ms
+- `ipdc-ldes-consumer`: increase sparql batch size to `1000`
 
 ### deploy notes
 ```bash
 drc restart database
-drc up ipdc-ldes-consumer
+drc pull ipdc-ldes-consumer && drc up -d ipdc-ldes-consumer
+```
+
+## 1.5.0 [2026-08-21]
+- `ipdc-ldes-consumer`: use mu-auth-scope instead of sudo queries [DL-7358]
+
+
+### deploy notes
+```bash
+drc restart database
+drc pull ipdc-ldes-consumer && drc up -d ipdc-ldes-consumer
 ```
 
 ## 1.4.0 [2026-08-06]
