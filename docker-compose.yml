@@ -177,14 +177,15 @@ services:
       PERSIST_STATE: "true"
       ORDERING_STRATEGY: "descending"
       EMIT_LAST_VERSION_ONLY: true
-      SPARQL_BATCH_SIZE: 50
+      LDES_REQUESTS_PER_MINUTE: 40
+      SPARQL_BATCH_SIZE: 1000
+      SPARQL_QUERY_TIMEOUT_MS: 100
       SUDO_QUERY_RETRY: "true"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       NODE_OPTIONS: "--max-old-space-size=8192"
       LOG_LEVEL: "debug"
       LOG_SPARQL_ALL: false
-      LDES_REQUESTS_PER_MINUTE: 40
-
+      
       USE_SUDO_QUERIES: false
       DEFAULT_MU_AUTH_SCOPE: http://services.semantic.works/ipdc-ldes-consumer
     restart: always
